@@ -1,95 +1,54 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { Box, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
+
+const foodItems = [
+  'spagetti',
+  'tomato sauce',
+  'meatballs',
+  'cheese',
+  'garlic bread'  
+]
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
+  return <Box
+    width="100vw"
+    height="100vh"
+    display="flex"
+    justifyContent="center"
+    alignItems="center"  
+  >
+  
+  <Stack
+    width = "800px"
+    height= "200px"
+    spacing = {2}
+    overflow={'auto'}>
+    {foodItems.map((item) => (
+      <Box
+        key = {item}
+        width = "100%"
+        height = "300px"
+        display = "flex"
+        justifyContent = "center"
+        alignItems = "center"
+        //make it a fun color
+        bgcolor={'#f0f0f0'}
+      >
+        <Typography
+          //set variant to h4, color to 333 and bold and center the text. captizlie first word of each item
+          variant="h4"
+          color={'#333'}
+          fontWeight={'bold'}
+          textAlign={'center'}
         >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+          {item.charAt(0).toUpperCase() + item.slice(1)}
+        </Typography>
+      </Box>
+    ))}
+  </Stack>
+  
+  
+  </Box>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
 }
