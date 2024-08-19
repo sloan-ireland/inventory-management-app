@@ -1,19 +1,16 @@
 'use client'
-import { Box, Typography, Button, Modal, TextField, IconButton } from "@mui/material";
-import { Stack } from "@mui/material";
+import { Box, Typography, Button, Modal, TextField, IconButton, Stack } from "@mui/material";
+import { Add as AddIcon, Remove as RemoveIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { firestore } from "@/firebase";
 import { collection, getDocs, query, doc, setDoc, onSnapshot, deleteDoc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
 
 export default function Home() {
   const [Pantry, setPantry] = useState([]);
   const [open, setOpen] = useState(false);
   const [newItem, setNewItem] = useState('');
   const [quantity, setQuantity] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');  // State for search term
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(firestore, 'Pantry'), (snapshot) => {
@@ -88,55 +85,56 @@ export default function Home() {
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
-      bgcolor="#f0f2f5"
-      padding="16px"
+      bgcolor="#f5f5f5"
+      padding="24px"
     >
       {/* Header Box */}
       <Box
-        width="600px"
-        height="80px"
+        width="100%"
+        maxWidth="800px"
         display="flex"
-        justifyContent="center"
+        justifyContent="space-between"
         alignItems="center"
-        bgcolor="#673ab7"
-        borderRadius="12px"
-        boxShadow="0px 6px 16px rgba(0, 0, 0, 0.2)"
         mb={4}
       >
         <Typography
-          variant="h4"
-          color="#ffffff"
+          variant="h3"
+          color="#673ab7"
           fontWeight="bold"
         >
           Pantry Items
         </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<AddIcon />}
+          onClick={() => setOpen(true)}
+          sx={{
+            borderRadius: '8px',
+            bgcolor: '#673ab7',
+            '&:hover': {
+              bgcolor: '#5e35b1'
+            },
+          }}
+        >
+          Add Item
+        </Button>
       </Box>
 
       {/* Search Field */}
-      <Box width="600px" mb={2}>
+      <Box width="100%" maxWidth="800px" mb={4}>
         <TextField
           variant="outlined"
           fullWidth
           placeholder="Search items..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)} // Update search term
+          onChange={(e) => setSearchTerm(e.target.value)}
+          sx={{
+            bgcolor: "#fff",
+            borderRadius: "8px",
+            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+          }}
         />
-      </Box>
-
-      {/* Add Button */}
-      <Box
-        width="600px"
-        display="flex"
-        justifyContent="flex-start"
-        mb={2}
-      >
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => setOpen(true)}
-        >
-          Add
-        </Button>
       </Box>
 
       {/* Modal for Adding New Item */}
@@ -159,7 +157,7 @@ export default function Home() {
           mx="auto"
           my="20%"
         >
-          <Typography id="add-item-modal" variant="h6" mb={2} color="#333">
+          <Typography id="add-item-modal" variant="h6" mb={2} color="#673ab7" fontWeight="bold">
             Add New Pantry Item
           </Typography>
           <TextField
@@ -168,7 +166,11 @@ export default function Home() {
             fullWidth
             value={newItem}
             onChange={(e) => setNewItem(e.target.value)}
-            mb={2}
+            sx={{
+              mb: 3,
+              borderRadius: "8px",
+              boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
+            }}
           />
           <TextField
             label="Quantity"
@@ -176,14 +178,29 @@ export default function Home() {
             fullWidth
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
-            mb={2}
             type="number"
+            sx={{
+              mb: 3,
+              borderRadius: "8px",
+              boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
+            }}
           />
           <Button
             variant="contained"
             color="primary"
             onClick={handleAddItem}
             fullWidth
+            sx={{
+              mt: 2,
+              borderRadius: "8px",
+              padding: "12px 0",
+              fontWeight: "bold",
+              boxShadow: "0px 4px 12px rgba(103, 58, 183, 0.4)",
+              bgcolor: '#673ab7',
+              '&:hover': {
+                bgcolor: '#5e35b1'
+              },
+            }}
           >
             Add to Pantry
           </Button>
@@ -192,7 +209,8 @@ export default function Home() {
 
       {/* Stack of Food Items */}
       <Stack
-        width="600px"
+        width="100%"
+        maxWidth="800px"
         spacing={2}
         overflow="auto"
         padding="16px"
@@ -208,7 +226,7 @@ export default function Home() {
             display="flex"
             justifyContent="space-between"
             alignItems="center"
-            bgcolor="#e1bee7"
+            bgcolor="#ede7f6"
             borderRadius="8px"
             boxShadow="0px 2px 8px rgba(0, 0, 0, 0.1)"
             padding="0 16px"
@@ -227,7 +245,7 @@ export default function Home() {
             </Typography>
             <Box display="flex" alignItems="center">
               <IconButton onClick={() => handleDecrementQuantity(item.id, item.quantity)}>
-                <RemoveIcon />
+                <RemoveIcon sx={{ color: '#673ab7' }} />
               </IconButton>
               <Typography
                 variant="body2"
@@ -238,11 +256,11 @@ export default function Home() {
                 {item?.quantity ?? "N/A"}
               </Typography>
               <IconButton onClick={() => handleIncrementQuantity(item.id, item.quantity)}>
-                <AddIcon />
+                <AddIcon sx={{ color: '#673ab7' }} />
               </IconButton>
             </Box>
             <IconButton onClick={() => handleRemoveItem(item.id)}>
-              <DeleteIcon />
+              <DeleteIcon sx={{ color: '#ff4081' }} />
             </IconButton>
           </Box>
         ))}
