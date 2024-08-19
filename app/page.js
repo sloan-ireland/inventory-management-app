@@ -13,6 +13,7 @@ export default function Home() {
   const [open, setOpen] = useState(false);
   const [newItem, setNewItem] = useState('');
   const [quantity, setQuantity] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');  // State for search term
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(firestore, 'Pantry'), (snapshot) => {
@@ -74,6 +75,11 @@ export default function Home() {
     }
   };
 
+  // Filter the pantry items based on the search term
+  const filteredPantry = Pantry.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Box
       width="100vw"
@@ -104,6 +110,17 @@ export default function Home() {
         >
           Pantry Items
         </Typography>
+      </Box>
+
+      {/* Search Field */}
+      <Box width="600px" mb={2}>
+        <TextField
+          variant="outlined"
+          fullWidth
+          placeholder="Search items..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)} // Update search term
+        />
       </Box>
 
       {/* Add Button */}
@@ -183,7 +200,7 @@ export default function Home() {
         borderRadius="12px"
         boxShadow="0px 6px 16px rgba(0, 0, 0, 0.2)"
       >
-        {Pantry.map((item) => (
+        {filteredPantry.map((item) => (
           <Box
             key={item.id}
             width="100%"
